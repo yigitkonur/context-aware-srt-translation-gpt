@@ -1,6 +1,6 @@
 # Dynamic Context Window Subtitle Translation Service
 
-Welcome to the Dynamic Context Window Subtitle Translation Service! If you value context-aware, linguistically nuanced translations for your subtitles, you're at the right place. This service leverages the exceptional language modeling abilities of OpenAI's GPT-4, along with DeepL as a reliable failover alternative, to provide translation of subtitles with a focus on retaining the natural feel and context of the original dialogue.
+Welcome to the Dynamic Context Window Subtitle Translation Service! If you value context-aware, linguistically nuanced translations for your subtitles, you're at the right place. This service leverages the exceptional language modeling abilities of OpenAI's GPT-3.5, along with DeepL as a reliable failover alternative, to provide translation of subtitles with a focus on retaining the natural feel and context of the original dialogue.
 
 ## What is a 'Dynamic Context Window'
 
