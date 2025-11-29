@@ -1,71 +1,276 @@
-# Dynamic Context Window Subtitle Translation Service
+<h1 align="center">🎬 context-aware-srt-translation 🎬</h1>
+<h3 align="center">Stop translating subtitles line by line. Start shipping natural translations.</h3>
 
-Welcome to the Dynamic Context Window Subtitle Translation Service! If you value context-aware, linguistically nuanced translations for your subtitles, you're at the right place. This service leverages the exceptional language modeling abilities of OpenAI's GPT-3.5, along with DeepL as a reliable failover alternative, to provide translation of subtitles with a focus on retaining the natural feel and context of the original dialogue.
+<p align="center">
+  <strong>
+    <em>The smarter subtitle translator. It reads your SRT, groups sequential lines for context, and uses GPT to produce translations that actually sound human.</em>
+  </strong>
+</p>
 
-## What is a 'Dynamic Context Window'
+<p align="center">
+  <a href="#"><img alt="python" src="https://img.shields.io/badge/python-3.10+-4D87E6.svg?style=flat-square"></a>
+  <a href="#"><img alt="fastapi" src="https://img.shields.io/badge/FastAPI-0.109+-009688.svg?style=flat-square"></a>
+  &nbsp;&nbsp;•&nbsp;&nbsp;
+  <a href="#"><img alt="license" src="https://img.shields.io/badge/License-MIT-F9A825.svg?style=flat-square"></a>
+  <a href="#"><img alt="platform" src="https://img.shields.io/badge/platform-macOS_|_Linux_|_Windows-2ED573.svg?style=flat-square"></a>
+</p>
 
-We present you a smarter way of subtitle translation, the **Dynamic Context Window**. As compared to sentence-by-sentence translations, which lose context, this approach includes the surrounding sentences around the one to be translated. Here is a simplified visualization of our approach:
+<p align="center">
+  <img alt="context window" src="https://img.shields.io/badge/🧠_context_window-groups_3_lines_at_once-2ED573.svg?style=for-the-badge">
+  <img alt="auto fallback" src="https://img.shields.io/badge/🔄_auto_fallback-OpenAI_→_DeepL-2ED573.svg?style=for-the-badge">
+</p>
 
-```plaintext
----------------
-| Prev Sentence |
----------------
-|   Translate   |
----------------
-| Next Sentence |
----------------
-```
+<div align="center">
 
-Each sentence is translated within a window that includes the sentences immediately before and after it, presenting a broader, contextual understanding.
+### 🧭 Quick Navigation
 
-## Main Actors: OpenAI and DeepL
+[**⚡ Get Started**](#-get-started-in-60-seconds) •
+[**✨ How It Works**](#-how-context-windows-work) •
+[**🎮 API Usage**](#-api-usage) •
+[**⚙️ Configuration**](#️-configuration) •
+[**🆚 Why This Slaps**](#-why-this-slaps-other-methods)
 
-**OpenAI's GPT-4** executes the translations with an enriched sense of context and linguistic nuance as the centerpiece of the operation. In the case of an exception with GPT-4, **DeepL** acts as a reliable failover to ensure the translation persists without any hiccups.
+</div>
 
-## Features
+---
 
--    Utilization of OpenAI's GPT model for contextually rich translations.
--    DeepL as a failover option to ensure uninterrupted service.
--    Improved translation nuance with Dynamic Context Window.
--    Exception handling.
--    Regular check-pointing to save the state every 10 subtitles.
+**context-aware-srt-translation** is the translator your subtitles deserve. Stop feeding GPT one line at a time and getting robotic, disconnected results. This service groups sequential subtitle lines together, giving the AI the context it needs to understand the conversation and produce translations that actually flow naturally.
 
-## Get Started
+<div align="center">
+<table>
+<tr>
+<td align="center">
+<h3>🧠</h3>
+<b>Context Windows</b><br/>
+<sub>3 lines translated together</sub>
+</td>
+<td align="center">
+<h3>⚡</h3>
+<b>Concurrent Processing</b><br/>
+<sub>Parallel chunk translation</sub>
+</td>
+<td align="center">
+<h3>🔄</h3>
+<b>Auto Fallback</b><br/>
+<sub>OpenAI → DeepL seamlessly</sub>
+</td>
+</tr>
+</table>
+</div>
 
-After cloning the repository and installing the necessary dependencies, you must set up your environment variables. The service requires necessary API keys:
+How it works:
+- **You:** POST your SRT file to the API
+- **Service:** Groups lines into context windows, translates concurrently
+- **Result:** Natural translations that respect conversational flow
+- **Bonus:** Full statistics on what happened
 
--   Load `OPENAI_API_KEY` and `DEEPL_API_KEY` environment variables with your OpenAI and DeepL API keys respectively.
+---
 
-The script runs with the powerful capabilities of the Uvicorn ASGI server. You can easily start the FastAPI application using the following command:
+## 💥 Why This Slaps Other Methods
+
+Line-by-line translation is a vibe-killer. Context windows make other methods look ancient.
+
+<table align="center">
+<tr>
+<td align="center"><b>❌ Line-by-Line (Pain)</b></td>
+<td align="center"><b>✅ Context Windows (Glory)</b></td>
+</tr>
+<tr>
+<td>
+<pre>
+"I think we should..."  →  "Sanırım biz..."
+"...go there tomorrow"  →  "...yarın oraya git"
+</pre>
+<sub>Disconnected. Robotic. Wrong verb forms.</sub>
+</td>
+<td>
+<pre>
+["I think we should...",
+ "...go there tomorrow"]  →  
+["Bence yarın oraya...",
+ "...gitmeliyiz"]
+</pre>
+<sub>Connected. Natural. Correct grammar.</sub>
+</td>
+</tr>
+</table>
+
+The difference is **context**. When GPT sees the full thought, it understands the sentence structure, maintains speaker tone, and produces translations humans would actually write.
+
+---
+
+## 🚀 Get Started in 60 Seconds
+
+### 1. Clone & Install
 
 ```bash
-uvicorn main:app --reload
+git clone https://github.com/yigitkonur/context-aware-srt-translation-gpt.git
+cd context-aware-srt-translation-gpt
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-Now, the script is all set to roll!
-
-## Requesting Translations
-
-With the server up, make translation requests using a simple CURL command. The API endpoint `/subtitle-translate` exposes a POST route. Here is an example curl request:
+### 2. Configure
 
 ```bash
-curl -X POST "http://localhost:8000/subtitle-translate" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"srt_content\":\"1\n00:02:17,440 --> 00:02:20,375\nSenator, we're making\nour final approach into Coruscant.\n\n2\n00:02:20,476 --> 00:02:22,501\nVery good, Lieutenant.\",\"source_language\":\"en\",\"target_language\":\"tr\"}"
+cp .env.example .env
+# Add your OpenAI API key (required)
+# Add DeepL API key (optional fallback)
 ```
 
-The `srt_content` parameter contains the subtitles to translate, `source_language` parameter specifies the current language of the subtitles, and `target_language` parameter specifies the target language for translation.
-
-### Translation Response
-
-A successful translation request will result in a response that includes the translated subtitles in the desired language retaining the original timing and subtitle index. 
-
-Example response:
+### 3. Run
 
 ```bash
+python run.py
+```
+
+The API is now live at `http://localhost:8000` 🎉
+
+---
+
+## 🧠 How Context Windows Work
+
+Instead of translating each subtitle line individually (which loses context), this service groups sequential lines:
+
+```
+┌─────────────────────────────────────────────────┐
+│  Traditional: Line 1 → Translate → Output 1    │
+│               Line 2 → Translate → Output 2    │
+│               Line 3 → Translate → Output 3    │
+│               ❌ No context between lines       │
+└─────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────┐
+│  Context Window:                                │
+│  [Line 1, Line 2, Line 3] → Translate Together  │
+│               ↓                                 │
+│  [Output 1, Output 2, Output 3]                 │
+│               ✅ AI sees the full picture       │
+└─────────────────────────────────────────────────┘
+```
+
+This allows GPT to:
+- **Maintain speaker continuity** — Same character, same voice
+- **Preserve conversation flow** — Questions match answers
+- **Handle split sentences** — "I think..." + "...we should go" = coherent thought
+- **Respect cultural context** — Idioms translated appropriately
+
+---
+
+## 🎮 API Usage
+
+### Translate Subtitles
+
+```bash
+curl -X POST "http://localhost:8000/subtitle-translate" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "srt_content": "1\n00:00:01,000 --> 00:00:04,000\nHello, how are you?\n\n2\n00:00:05,000 --> 00:00:08,000\nI am doing great, thanks!",
+    "source_language": "en",
+    "target_language": "tr"
+  }'
+```
+
+### Response
+
+```json
 {
-  "translation": "1\n00:02:17,440 --> 00:02:20,375\nSenatör, Coruscant'a son yaklaşmamızı gerçekleştiriyoruz.\n\n2\n00:02:20,476 --> 00:02:22,501\nÇok iyi, Teğmen."
+  "translated_srt_content": "1\n00:00:01,000 --> 00:00:04,000\nMerhaba, nasılsın?\n\n2\n00:00:05,000 --> 00:00:08,000\nÇok iyiyim, teşekkürler!",
+  "status": "success",
+  "error_message": null,
+  "stats": {
+    "total_sentences": 2,
+    "translated_sentences": 2,
+    "failed_sentences": 0,
+    "success_rate": 100.0,
+    "openai_calls": 1,
+    "deepl_calls": 0,
+    "elapsed_seconds": 1.23
+  }
 }
 ```
 
-## Conclusion
+### Health Check
 
-That's it! Now you can use the Dynamic Context Window Subtitle Translation Service, offering a novel method for translating subtitles that preserves context and results in more accurate translations. Happy translating!
+```bash
+curl http://localhost:8000/health
+# {"status": "healthy", "version": "2.0.0"}
+```
+
+---
+
+## ⚙️ Configuration
+
+All settings via environment variables:
+
+| Variable | Default | Description |
+|:---------|:--------|:------------|
+| `OPENAI_API_KEY` | — | **Required.** Your OpenAI API key |
+| `DEEPL_API_KEY` | — | Optional fallback service |
+| `OPENAI_MODEL` | `gpt-4o-mini` | Model for translations |
+| `OPENAI_TEMPERATURE` | `0.3` | Lower = more consistent |
+| `CONTEXT_WINDOW_SIZE` | `3` | Lines per translation chunk |
+| `MAX_CONCURRENT_REQUESTS` | `10` | Parallel API calls |
+| `LOG_LEVEL` | `INFO` | Logging verbosity |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── config.py              # Environment configuration
+├── models.py              # Pydantic request/response models
+├── srt_parser.py          # SRT parsing & reconstruction
+├── translator.py          # Main orchestration logic
+├── main.py                # FastAPI application
+└── services/
+    ├── base.py            # Service interface
+    ├── openai_service.py  # OpenAI implementation
+    └── deepl_service.py   # DeepL fallback
+```
+
+---
+
+## 🔥 API Documentation
+
+Interactive docs available when running:
+- **Swagger UI:** `http://localhost:8000/docs`
+- **ReDoc:** `http://localhost:8000/redoc`
+
+---
+
+## 🛠️ Development
+
+```bash
+# Setup
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# Run tests
+pytest tests/ -v
+
+# Run with hot reload
+python run.py
+```
+
+---
+
+## 🔥 Common Issues
+
+| Problem | Solution |
+|:--------|:---------|
+| **OpenAI rate limit** | Reduce `MAX_CONCURRENT_REQUESTS` |
+| **DeepL not working** | Check `DEEPL_API_KEY` is set correctly |
+| **Translations cut off** | Increase `OPENAI_MAX_TOKENS` |
+| **Wrong language codes** | Use ISO 639-1 codes: `en`, `tr`, `de`, `fr`, etc. |
+
+---
+
+<div align="center">
+
+**Built with 🔥 because line-by-line subtitle translation is a crime against cinema.**
+
+MIT © [Yiğit Konur](https://github.com/yigitkonur)
+
+</div>
